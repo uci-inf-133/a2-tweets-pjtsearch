@@ -34,16 +34,22 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
-        return "";
+        return (
+          this.text.match(/Just \w+ a [\d\.]+ \w+ (\w+)/)?.[1] ||
+          this.text.match(/Just \w+ a (.+) in [\d\.]+/)?.[1] ||
+          "unknown"
+        )
     }
 
     get distance():number {
         if(this.source != 'completed_event') {
             return 0;
         }
-        //TODO: prase the distance from the text of the tweet
-        return 0;
+        const distanceString = this.text.match(/Just \w+ a ([\d\.]+) (\w+) \w+/)
+        if (!distanceString) {
+          return 0
+        }
+        return distanceString[2] == "km" ? Number(distanceString[1]) * 1.069 : Number(distanceString[1])
     }
 
     getHTMLTableRow(rowNumber:number):string {
