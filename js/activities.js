@@ -12,12 +12,17 @@ function parseTweets(runkeeper_tweets) {
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
 	const activity_vis_spec = {
-	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-	  "description": "A graph of the number of Tweets containing each type of activity.",
-	  "data": {
-	    "values": tweet_array
-	  }
-	  //TODO: Add mark and encoding
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+		"description": "A graph of the number of Tweets containing each type of activity.",
+		"width": 500,
+		"data": {
+			"values": tweet_array
+		},
+		"mark": "bar",
+		"encoding": {
+			"y": { "field": "activityType", "type": "nominal", "sort": "-x", "title": "Activity Type" },
+			"x": { "aggregate": "count", "type": "quantitative", "title": "Number of Posts" }
+		}
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
